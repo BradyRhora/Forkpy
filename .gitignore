@@ -123,4 +123,4 @@ dmypy.json
 .pyre/
 
 # User added files
-token
+/token
