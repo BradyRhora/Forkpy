@@ -3,8 +3,9 @@ from discord.ext import commands
 from xml.etree import ElementTree as ET
 import Constants as CON
 import Variables as VAR
+import Character
 import requests
-import urllib.request
+import urllib.request as URL
 from bs4 import BeautifulSoup as BS
 #  import logging
 
@@ -47,8 +48,8 @@ async def start(ctx):
 @bot.command()
 async def dnd(ctx, param):
     if param == 'party':
-        urllib.urlopen(f'https://www.dndbeyond.com/campaigns/{CON.CAMPAIGN_ID}')
-        pass
+        for c in CON.CHARACTERS:
+            char = Character(c)
 
 
 token = open('token', 'r')
