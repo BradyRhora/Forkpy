@@ -2,12 +2,13 @@ import discord
 from discord.ext import commands
 from xml.etree import ElementTree as ET
 import Constants as CON
+import Variables as VAR
 import requests
+import urllib.request
+from bs4 import BeautifulSoup as BS
 #  import logging
 
 #  logging.basicConfig(level=logging.INFO)
-
-chatbot_convo = 0
 
 bot = commands.Bot(command_prefix=';', description='Forkbot\'s GF')
 
@@ -23,12 +24,12 @@ async def on_message(message):
         return
     if f'<@{CON.FORKPY_ID}>' in message.content or f'<@!{CON.FORKPY_ID}>' in message.content:
         msg = message.content.replace(f'<@{CON.FORKPY_ID}>', '').replace(f'<@!{CON.FORKPY_ID}>', '')
-        global chatbot_convo
-        link = f'https://www.botlibre.com/rest/api/form-chat?&application=7362540682895337949&instance=26768886&conversation={chatbot_convo}&message={msg}'
+
+        link = f'https://www.botlibre.com/rest/api/form-chat?&application={CON.BOT_APP}&instance={CON.BOT_INST}&conversation={VAR.conversation}&message={msg}'
         response = requests.get(link)
         if response.text != "Profanity, offensive or sexual language is not permitted.":
             tree = ET.fromstring(response.text)
-            chatbot_convo = tree.get('conversation')
+            VAR.conversation = tree.get('conversation')
             await message.channel.send(message.author.mention + ' ' + tree.find('message').text)
         else:
             await message.channel.send(message.author.mention + ' ' + "I don't want to talk about that.")
@@ -46,7 +47,8 @@ async def start(ctx):
 @bot.command()
 async def dnd(ctx, param):
     if param == 'party':
-        
+        urllib.urlopen(f'https://www.dndbeyond.com/campaigns/{CON.CAMPAIGN_ID}')
+        pass
 
 
 token = open('token', 'r')
