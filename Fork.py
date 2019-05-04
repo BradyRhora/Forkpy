@@ -47,9 +47,13 @@ async def start(ctx):
 
 @bot.command()
 async def dnd(ctx, param):
+    print('testing dnd')
     if param == 'party':
-        for c in CON.CHARACTERS:
-            char = Character(c)
+        #  for c in CON.CHARACTERS:
+        
+        c = CON.DYLON
+        print('testing party')
+        char = Character.Character(c)
 
 
 token = open('token', 'r')
